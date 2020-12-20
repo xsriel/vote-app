@@ -7,6 +7,10 @@ import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-logi
 import {GoogleLoginProvider,FacebookLoginProvider} from 'angularx-social-login';
 import { LinkComponent } from './link/link.component';
 
+import { FormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http'
+import { UsuarioService } from './usuario.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +19,9 @@ import { LinkComponent } from './link/link.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SocialLoginModule
+    SocialLoginModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     {
@@ -34,8 +40,9 @@ import { LinkComponent } from './link/link.component';
             provider: new FacebookLoginProvider('1787044481476375')
           }
         ]
-      } as SocialAuthServiceConfig,
-    }
+      } as SocialAuthServiceConfig
+    },
+    UsuarioService
   ],
   bootstrap: [AppComponent]
 })

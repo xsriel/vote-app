@@ -4,6 +4,8 @@ import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-logi
 import { SocialUser } from "angularx-social-login";
 import { Router } from "@angular/router";
 import { Link } from './link/link.model';
+import { UsuarioService } from './usuario.service'
+import { usuario } from './usuario.model'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +15,15 @@ export class AppComponent {
   title = 'vote-app';
   user: SocialUser = new SocialUser;
   links: Link[];
-  constructor(private authService: SocialAuthService,private router:Router) 
+  usuarios:any = null;
+  usuario = {
+    idUsuario: 0,
+    nombre: '',
+    email: '',
+    password: '',
+    tipo:'usuario'
+  }
+  constructor(private authService: SocialAuthService,private router:Router,private usuariosServicio: UsuarioService) 
   {
     this.links = [
       new Link('angular', 'http://angular.io', 10),
@@ -34,17 +44,55 @@ export class AppComponent {
   signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((userData) => {
       this.user = userData;
-      this.router.navigate(['link'])
+      this.usuario.nombre = this.user.name;
+      this.usuario.email = this.user.email;
+      this.usuario.password = this.user.name;
+      this.usuario.tipo = 'usuario';
+      this.altaUsuario();
+      //this.router.navigate(['link'])
     });
   }
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((userData) => {
       this.user = userData;
-      this.router.navigate(['link'])
+      this.usuario.nombre = this.user.name;
+      this.usuario.email = this.user.email;
+      this.usuario.password = this.user.name;
+      this.usuario.tipo = 'usuario';
+      this.altaUsuario();
+      //this.router.navigate(['link'])
     });
   }
+  obtenerUsuarios() {
+    this.usuariosServicio.obtenerUsuario().subscribe(
+      result => this.usuarios = result
+    );
+  }
 
+  altaUsuario() {
+    this.usuariosServicio.guardarUsuario(this.usuarios).subscribe(
+      datos => {
+          this.obtenerUsuarios();
+      }
+    );
+  }
+
+  bajaUsuario(idUsuario: any) {
+    this.usuariosServicio.eliminarUsuario(idUsuario).subscribe(
+      datos => {
+          this.obtenerUsuarios();
+      }
+    );
+  }
+
+  editarUsuario() {
+    this.usuariosServicio.editarUsuario(this.usuario).subscribe(
+      datos => {
+          this.obtenerUsuarios();
+      }
+    );
+  }
   signOut(): void {
     this.authService.signOut();
   }
