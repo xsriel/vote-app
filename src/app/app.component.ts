@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { Link } from './link/link.model';
 import { UsuarioService } from './usuario.service'
 import { usuario } from './usuario.model'
+//import { link } from 'fs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -42,26 +43,31 @@ export class AppComponent {
     return this.links.sort((a: Link, b: Link) => b.votes - a.votes);
   }
   signInWithGoogle(): void {
+    
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((userData) => {
+      
       this.user = userData;
       this.usuario.nombre = this.user.name;
       this.usuario.email = this.user.email;
       this.usuario.password = this.user.name;
       this.usuario.tipo = 'usuario';
       this.altaUsuario();
-      //this.router.navigate(['link'])
+      this.router.navigate(['/link']);
+      
     });
   }
 
   signInWithFB(): void {
+    
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((userData) => {
+      
       this.user = userData;
       this.usuario.nombre = this.user.name;
       this.usuario.email = this.user.email;
       this.usuario.password = this.user.name;
       this.usuario.tipo = 'usuario';
       this.altaUsuario();
-      //this.router.navigate(['link'])
+      this.router.navigate(['/link']);
     });
   }
   obtenerUsuarios() {

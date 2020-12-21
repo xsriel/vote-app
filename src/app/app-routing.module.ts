@@ -6,7 +6,8 @@ import { AppComponent } from 'src/app/app.component';
 
 const routes: Routes = [
   { path: '', component: AppComponent },
-  { path: 'link', component: LinkComponent}
+  { path: 'link', component: LinkComponent},
+  
 ];
 
 @NgModule({

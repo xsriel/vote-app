@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "vote-app"
+  "defaultProject": "vote-app",
+  "cli": {
+    "analytics": "108b39f6-fcd6-4e1e-aeb1-edae64b666f5"
+  }
 }
