@@ -16,11 +16,17 @@
   require("conexion.php"); // IMPORTA EL ARCHIVO CON LA CONEXION A LA DB
 
   $conexion = conexion(); // CREA LA CONEXION
+
+  if (!$conexion) {
+    die('No pudo conectarse: ' . mysql_error());
+}
   
   // REALIZA LA QUERY A LA DB
   mysqli_query($conexion, "
                             INSERT INTO `usuario` (`id`, `nombre`, `email`, `password`, `tipo`) VALUES 
-                            ('$params->nombre',$params->email, '$params->password,'$params->tipo')");    
+                            (0,'$params->nombre','$params->email', '$params->password','$params->tipo')"); 
+                           
+  mysqli_close($conexion);   
   
   class Result {}
 

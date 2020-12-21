@@ -5,8 +5,12 @@ import { SocialUser } from "angularx-social-login";
 import { Router } from "@angular/router";
 import { Link } from './link/link.model';
 import { UsuarioService } from './usuario.service'
+<<<<<<< HEAD
 import { usuario } from './usuario.model'
 //import { link } from 'fs';
+=======
+import { LinkService } from './link.service'
+>>>>>>> a55dc841878a058bcb03280bfafb96be802134bc
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +20,7 @@ export class AppComponent {
   title = 'vote-app';
   user: SocialUser = new SocialUser;
   links: Link[];
+  link!: Link;
   usuarios:any = null;
   usuario = {
     idUsuario: 0,
@@ -24,7 +29,11 @@ export class AppComponent {
     password: '',
     tipo:'usuario'
   }
-  constructor(private authService: SocialAuthService,private router:Router,private usuariosServicio: UsuarioService) 
+  Login = {
+    email: '',
+    password: '',
+  }
+  constructor(private authService: SocialAuthService,private router:Router,private usuariosServicio: UsuarioService,private LinkServicio: LinkService) 
   {
     this.links = [
       new Link('angular', 'http://angular.io', 10),
@@ -34,6 +43,9 @@ export class AppComponent {
   }
   addLink(title: HTMLInputElement, link: HTMLInputElement): boolean {
     this.links.push(new Link(title.value, link.value));
+    this.link.title=title.value;
+    this.link.link=link.value;
+    this.altaEncuesta()
     title.value = '';
     link.value = '';
     return false;
@@ -70,6 +82,11 @@ export class AppComponent {
       this.router.navigate(['/link']);
     });
   }
+  signInWithUser(): void {
+    this.usuariosServicio.Login(this.Login).subscribe(
+      //this.router.navigate(['link'])
+    );
+  }
   obtenerUsuarios() {
     this.usuariosServicio.obtenerUsuario().subscribe(
       result => this.usuarios = result
@@ -77,7 +94,7 @@ export class AppComponent {
   }
 
   altaUsuario() {
-    this.usuariosServicio.guardarUsuario(this.usuarios).subscribe(
+    this.usuariosServicio.guardarUsuario(this.usuario).subscribe(
       datos => {
           this.obtenerUsuarios();
       }
@@ -94,6 +111,29 @@ export class AppComponent {
 
   editarUsuario() {
     this.usuariosServicio.editarUsuario(this.usuario).subscribe(
+      datos => {
+          this.obtenerUsuarios();
+      }
+    );
+  }
+  altaEncuesta() {
+    this.LinkServicio.guardarEncuesta(this.link).subscribe(
+      datos => {
+          this.obtenerUsuarios();
+      }
+    );
+  }
+
+  bajaEncuesta(id: any) {
+    this.LinkServicio.eliminarEncuesta(id).subscribe(
+      datos => {
+          this.obtenerUsuarios();
+      }
+    );
+  }
+
+  editarEncuesta() {
+    this.LinkServicio.editarEncuesta(this.link).subscribe(
       datos => {
           this.obtenerUsuarios();
       }
