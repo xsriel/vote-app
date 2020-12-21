@@ -71,7 +71,7 @@ export class AppComponent {
   }
 
   altaUsuario() {
-    this.usuariosServicio.guardarUsuario(this.usuarios).subscribe(
+    this.usuariosServicio.guardarUsuario(this.usuario).subscribe(
       datos => {
           this.obtenerUsuarios();
       }
