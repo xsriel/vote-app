@@ -24,4 +24,7 @@ export class UsuarioService {
   editarUsuario(usuario:any){
     return this.http.post(`${this.URL}EditarUsuario.php`,JSON.stringify(usuario))
   }
+  Login(usuario:any){
+    return this.http.post(`${this.URL}LoginUsuario.php`,JSON.stringify(usuario))
+  }
 }
